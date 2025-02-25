@@ -15,7 +15,14 @@ def recognizeLanguage(code):
 
         # Get the language name
         language = pycountry.languages.get(alpha_2=language_code) or pycountry.languages.get(alpha_3=language_code)
-        language_name = language.name if language else "Unknown Language"
+
+        if language:
+            language_name = language.name
+        else:
+            if language_code == "iw":  # patch because of missing item in pycountry
+                language_name = "Hebrew"
+            else:
+                language_name = ""
 
         # Get the region name, if applicable
         region_name = None

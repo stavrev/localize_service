@@ -60,6 +60,4 @@ if __name__ == "__main__":
 
                 itemCount += 1
 
-            print("\n")
-
 

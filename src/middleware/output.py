@@ -17,6 +17,7 @@ def replaceUnwantedCharacters(input: str):
     return (input
             .replace("'", "’")
             .replace("&", "&amp;")
+            .replace("—", ", ")  # Seems a marker from chatGPT
     )
 
 

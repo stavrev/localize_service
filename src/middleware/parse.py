@@ -4,17 +4,19 @@ import json
 
 def get_data(xml_string):
     """
-    Converts XML-like elements in a string to a JSON dictionary string.
+    Converts XML-like elements in a string to a JSON dictionary string,
+    ignoring elements with translatable="false".
 
     :param xml_string: A string containing XML-like elements.
     :return: A JSON string representing the elements as key-value pairs.
     """
-    # Use regex to extract 'name' attribute and the inner text of <string> elements
-    pattern = r'<string name="(.*?)">(.*?)</string>'
+    # Use regex to extract 'name' attribute and the inner text of <string> elements,
+    # while capturing optional 'translatable="false"'
+    pattern = r'<string name="(.*?)"(?:\s+translatable="false")?>(.*?)</string>'
     matches = re.findall(pattern, xml_string)
 
-    # Convert matches to a dictionary
-    result_dict = {name: value for name, value in matches}
+    # Convert matches to a dictionary, excluding items that have translatable="false"
+    result_dict = {name: value for name, value in matches if f'name="{name}" translatable="false"' not in xml_string}
 
     # Convert the dictionary to a JSON string
     return json.dumps(result_dict, ensure_ascii=False, indent=4)
